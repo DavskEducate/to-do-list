@@ -4,24 +4,15 @@
     <title> To-Do List </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 
 <style>
     body {
         margin-top: 50px;
-        background-color:mistyrose;
+        background-color: mistyrose;
         font-family: "Volkorn, Geneva, Tahoma, sans-serif";
         font-size: 1.3em;
     }
-
-    /* .delete {
-        display: inline-block;
-        content: "";
-        background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z' clip-rule='evenodd'/></svg>");
-        background-repeat: no-repeat;
-        background-size: 1rem 1rem;
-    } */
 
     span.delete {
         font-size: 2em;
@@ -43,10 +34,8 @@
     }
 
     ul label {
- padding: 10px; 
+        padding: 10px;
     }
-
-
 </style>
 
 <body>
@@ -90,27 +79,6 @@
             </section>
         </main>
     </content>
-    <!-- <div id="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <header>
-                    <input type="text" placeholder="Enter Task..." id="item">
-                    <button id="add">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">...</svg>
-                    </button>
-                </header>
-            </div>
-        </div>
-        <h2>
-            To Do
-        </h2>
-        <ul class="todo" id="todo"> </ul>
-        <h2>
-            Completed
-        </h2>
-        <ul class="completed" id="completed"></ul>
-    </div> -->
-
     <script>
         // Any global settings that are needed for this to run.
         function init() {
@@ -181,22 +149,6 @@
 
             }
         }
-
-        // function completeItem() {
-        //         // grab the `li` by targeting the parent of the parent of the button (button -> div -> li)
-        //         let item = this.parentNode.parentNode;
-        //         // grab the `ul` (li -> ul)
-        //         let parent = item.parentNode;
-        //         // grab the parent id
-        //         let id = parent.id;
-        //         // check if the item should go in the completed or if it should be re-added to todo by using a ternary operator
-        //         let target = (id === "todo") ? document.getElementById("completed") : document.getElementById(
-        //             "todo");
-        //         // remove the item to its current `ul`
-        //         parent.removeChild(item);
-        //         // add the item to the new `ul`
-        //         target.insertBefore(item, target.childNodes[0]);
-        //     }
 
         // Remove any tasks from the list.
         function deleteAll() {
