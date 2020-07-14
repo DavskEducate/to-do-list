@@ -2,41 +2,93 @@
 
 <head>
     <title> To-Do List </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 
+<style>
+    body {
+        margin-top: 50px;
+        background-color:mistyrose;
+        font-family: "Volkorn, Geneva, Tahoma, sans-serif";
+        font-size: 1.3em;
+    }
+
+    /* .delete {
+        display: inline-block;
+        content: "";
+        background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z' clip-rule='evenodd'/></svg>");
+        background-repeat: no-repeat;
+        background-size: 1rem 1rem;
+    } */
+
+    span.delete {
+        font-size: 2em;
+        background-color: red;
+    }
+
+    main {
+        background-color: darkcyan;
+        padding: 15px;
+    }
+
+    aside {
+        background-color: darkolivegreen;
+        padding: 15px;
+    }
+
+    .complete {
+        zoom: 1.8;
+    }
+
+    ul label {
+ padding: 10px; 
+    }
+
+
+</style>
+
 <body>
-    <aside>
-        <h1>Task Controls</h1>
-        <h2>Add Task</h2>
-        <input type="text" placeholder="Enter Task Description..." id="taskDesc">
-        <button type="button" onClick="addNew();">Save</button>
-        <h2>Delete All Tasks</h2>
-        <button type="button" onClick="deleteAll();">Delete All Tasks</button>
+    <aside class="container-md">
+        <h1 class="alert alert-primary" role="alert">Task Controls</h1>
+        <section class="alert alert-success" role="alert">
+            <h2 class="alert-heading">Add Task</h2>
+            <input type="text" name="newTask" size="80" placeholder="Enter Task Description..." id="taskDesc">
+            <button type="button" onClick="addNewTask();">Save</button>
+        </section>
+        <section class="alert alert-danger" role="alert">
+            <h2 class="alert-heading">Delete All Tasks</h2>
+            <button type="button" class="btn btn-default" onClick="deleteAll();">
+                <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                    <path fill-rule="evenodd"
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                </svg>
+            </button>
+        </section>
     </aside>
 
     <content>
-        <h1>To-Do List</h1>
-        <section>
-            <h2>Tasks to Complete</h2>
-            <tbody>
-                <ul id="uncompTask">
-                    <li>
-                        <p>Walk dog</p>
-                    </li>
-                </ul>
-            </tbody>
-        </section>
-        <section>
-            <h2>Completed Tasks</h2>
-            <tbody>
-                <ul id="compTask">
-                    <li>
-                        <p>pay bills</p>
-                    </li>
-                </ul>
-            </tbody>
-        </section>
+        <main class="container-md" id="main">
+            <h1 class="alert alert-info" role="alert">To-Do List</h1>
+            <section class="alert alert-warning" role="alert">
+                <h2 class="alert-heading">Tasks to Complete</h2>
+                <tbody>
+                    <ul id="uncompTask">
+                    </ul>
+                </tbody>
+            </section>
+            <section class="alert alert-secondary" role="alert">
+                <h2 class="alert-heading">Completed Tasks</h2>
+                <tbody>
+                    <ul id="compTask">
+                    </ul>
+                </tbody>
+            </section>
+        </main>
     </content>
     <!-- <div id="container">
         <div class="row">
@@ -60,168 +112,113 @@
     </div> -->
 
     <script>
+        // Any global settings that are needed for this to run.
+        function init() {
+            let list1 = document.getElementById("uncompTask");
+            list1.onclick = updateUncompTask;
+            let list2 = document.getElementById("compTask");
+            list2.onclick = updateCompTask;
+        }
 
-		// Any global settings that are needed for this to run.
-		function init() {
-			let list = document.getElementById("uncompTasks");
-			list.onclick = updateUncompTask;
-		}
+        // Put a new task on the list
+        function addNewTask() {
+            let newTask = document.getElementById("taskDesc");
+            if (newTask.value != "") {
+                let list = document.getElementById("uncompTask");
+                let li = document.createElement("li");
+                li.innerHTML =
+                    `<input type="checkbox" class="complete"><label>${newTask.value}</label> <span class="delete">␡</span>`;
+                list.appendChild(li);
+            } else {
+                alert("Please include description of task!");
+            }
+            newTask.value = null; // The new task is added.
+        }
 
-		// Put a new task on the list
-		function addNew() {
-			let newTask = document.getElementById("new");
-			let list = document.getElementById("uncomptask");
-			let li = document.createElement("li");
-			li.innerHTML = `<span class="delete">&times;</span><input type="checkbox" class="done"> <label>${newTask.value}</label>`;
-			list.appendChild(li);
+        // Change the list depending on the action and task clicked.
+        function updateUncompTask(event) {
+            if (event.target.className == "delete") {
+                let task = event.target.parentNode;
+                let list = task.parentNode;
+                list.removeChild(task);
+            }
 
-			newTask.value = null; // The new task is added.
-		}
+            if (event.target.className == "complete") {
+                let checkbox = event.target;
+                let task = checkbox.nextSibling.nextSibling;
+                if (checkbox.checked) {
+                    // find and then remove task from current `ul`
+                    let taskItem = task.parentNode;
+                    let list1 = taskItem.parentNode;
+                    list1.removeChild(taskItem);
+                    // add task to new `ul`
+                    let target = document.getElementById("compTask")
+                    target.insertBefore(taskItem, target.childNodes[0]);
+                }
+            }
+        }
 
-		// Change the list depending on the action and task clicked.
-		function updateUncompTask(event) {
-			if (event.target.className == "delete") {
-				let task = event.target.parentNode;
-				let list = task.parentNode;
-				list.removeChild(task);
-			}
+        // Change the list depending on the action and task clicked.
+        function updateCompTask(event) {
+            if (event.target.className == "delete") {
+                let task = event.target.parentNode;
+                let list = task.parentNode;
+                list.removeChild(task);
+            }
 
-			if (event.target.className == "done") {
-				let checkbox = event.target;
-				let task = checkbox.nextSibling.nextSibling;
-				if (checkbox.checked) {
-					task.style.textDecoration = "line-through";
-				}
-				else {
-					task.style.textDecoration = "none";
-				}
-			}
-		}
+            if (event.target.className == "complete") {
+                let checkbox = event.target;
+                let task = checkbox.nextSibling.nextSibling;
+                if (!checkbox.checked) {
+                    // find and then remove task from current `ul`
+                    let taskItem = task.parentNode;
+                    let list1 = taskItem.parentNode;
+                    list1.removeChild(taskItem);
+                    // add task to new `ul`
+                    let target = document.getElementById("uncompTask")
+                    target.insertBefore(taskItem, target.childNodes[0]);
+                }
+
+            }
+        }
+
+        // function completeItem() {
+        //         // grab the `li` by targeting the parent of the parent of the button (button -> div -> li)
+        //         let item = this.parentNode.parentNode;
+        //         // grab the `ul` (li -> ul)
+        //         let parent = item.parentNode;
+        //         // grab the parent id
+        //         let id = parent.id;
+        //         // check if the item should go in the completed or if it should be re-added to todo by using a ternary operator
+        //         let target = (id === "todo") ? document.getElementById("completed") : document.getElementById(
+        //             "todo");
+        //         // remove the item to its current `ul`
+        //         parent.removeChild(item);
+        //         // add the item to the new `ul`
+        //         target.insertBefore(item, target.childNodes[0]);
+        //     }
 
         // Remove any tasks from the list.
-		function deleteAll() {
-			let list = document.getElementById("compTask");
-			list.innerHTML = null;
-            let list = document.getElementById("uncompTask");
-			list.innerHTML = null;
-		}
+        function deleteAll() {
+            // alert("deleting all");
+            let list1 = document.getElementById("compTask");
+            list1.innerHTML = null;
+            let list2 = document.getElementById("uncompTask");
+            list2.innerHTML = null;
+        }
 
-		// Make sure to initialize the script.
-		init();
-
-	</script>
-
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // button to add new item
-            let addButton = document.querySelector("#add");
-            // input field to add new item
-            let addInput = document.querySelector("#item");
-
-            // add the svg icons for the buttons
-            let removeSVG =
-                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 84V56c0-13.3 10.7-24 24-24h112l9.4-18.7c4-8.2 12.3-13.3 21.4-13.3h114.3c9.1 0 17.4 5.1 21.5 13.3L312 32h112c13.3 0 24 10.7 24 24v28c0 6.6-5.4 12-12 12H12C5.4 96 0 90.6 0 84zm416 56v324c0 26.5-21.5 48-48 48H80c-26.5 0-48-21.5-48-48V140c0-6.6 5.4-12 12-12h360c6.6 0 12 5.4 12 12zm-272 68c0-8.8-7.2-16-16-16s-16 7.2-16 16v224c0 8.8 7.2 16 16 16s16-7.2 16-16V208zm96 0c0-8.8-7.2-16-16-16s-16 7.2-16 16v224c0 8.8 7.2 16 16 16s16-7.2 16-16V208zm96 0c0-8.8-7.2-16-16-16s-16 7.2-16 16v224c0 8.8 7.2 16 16 16s16-7.2 16-16V208z"/></svg>`;
-
-            let completeSVG =
-                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg>`;
-
-            addButton.addEventListener("click", function () {
-                // grab the value of the input tag
-                let newItem = document.getElementById("item").value;
-                // if the input tag is not empty then run our function to add an item
-                if (newItem) {
-                    // this function will add a new item to the todo list
-                    addItemTodo(newItem);
-                    // reset the input after we added a new item
-                    document.getElementById("item").value = "";
-                }
-            });
-
-            // user press enter 
-
-            addInput.addEventListener("keypress", function (e) {
-                // did the user press *enter*? if yes then continue
-                if (13 === e.keyCode) {
-                    // grab the value of the input tag
-                    let newItem = document.getElementById("item").value;
-                    // if the input tag is not empty then run our function to add an item
-                    if (newItem) {
-                        // this function will add a new item to the todo list
-                        addItemTodo(newItem);
-                        // reset the input after we added a new item
-                        document.getElementById("item").value = "";
-                    }
-                }
-            });
-
-            function addItemTodo(text) {
-                // grab the `ul`
-                let list = document.getElementById("todo");
-                // create an `li`
-                let item = document.createElement('li');
-                // set the inside of our `li` the same as the parameter that we passed in the function, which is going to be the value set by the user in the input field
-                item.innerText = text;
-
-                //create container for our buttons remove and complete
-                let buttons = document.createElement('div');
-                buttons.classList.add("buttons");
-
-                // create the two buttons
-
-                let remove = document.createElement('button');
-                remove.classList.add('remove');
-                // add the SVG icon to the button
-                remove.innerHTML = removeSVG;
-                // add event listener for remove
-                // this function will be definedd later
-                remove.addEventListener("click", removeItem);
-
-                let complete = document.createElement('button');
-                complete.classList.add('complete');
-                // add the SVG icon to the button
-                complete.innerHTML = completeSVG;
-                // add event listener for complete
-                // this function will be defined later
-                complete.addEventListener("click", completeItem);
-
-                // append the buttons to the div
-                buttons.appendChild(remove);
-                buttons.appendChild(complete);
-
-                // append the whole div to the li
-                item.appendChild(buttons);
-
-                // prepend the `li` to the `ul`
-                list.insertBefore(item, list.childNodes[0]);
-            }
-
-            function completeItem() {
-                // grab the `li` by targeting the parent of the parent of the button (button -> div -> li)
-                let item = this.parentNode.parentNode;
-                // grab the `ul` (li -> ul)
-                let parent = item.parentNode;
-                // grab the parent id
-                let id = parent.id;
-
-                // check if the item should go in the completed or if it should be re-added to todo by using a ternary operator
-                let target = (id === "todo") ? document.getElementById("completed") : document.getElementById(
-                    "todo");
-                // remove the item to its current `ul`
-                parent.removeChild(item);
-                // add the item to the new `ul`
-                target.insertBefore(item, target.childNodes[0]);
-            }
-
-            function removeItem() {
-                // grab the `li` by targeting the parent of the parent of the button (button -> div -> li)
-                let item = this.parentNode.parentNode;
-                // grab the `ul` (li -> ul)
-                let parent = item.parentNode;
-                // remove `li` from `ul`
-                parent.removeChild(item);
-            }
-        })
-    </script> -->
+        // Make sure to initialize the script.
+        init();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
