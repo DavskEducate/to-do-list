@@ -16,19 +16,20 @@ We will be enhancing it into a package for general use on Davsk client sites usi
 * Filter List by Priority, Project and Context
 * Sorts the task list by Status (closed or active), Priority, Created Date, and then Completed Date
 ### List Items
+* Start
 * Edit
   * Date Created
   * Date Started
   * Date Completed
-  * Description
-  * Priority
-  * Project
-  * Context
-  * Resource
-  * Precedent
-  * Recurring
+  * Description Input
+  * Priority Select
+  * Project Select
+  * Context Select
+  * Resource Select Multiple and Qty
+  * Precedent Select
+  * Recurring dialog
 ### Content
-* Project
-* Context
-* Resource
-* Gantt
+* Project db
+* Context db
+* Resource db
+* Gantt canvas
